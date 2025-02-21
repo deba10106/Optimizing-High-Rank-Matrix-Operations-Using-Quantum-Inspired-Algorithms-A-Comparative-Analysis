@@ -1,0 +1,16 @@
+# Byte-compiled files
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp

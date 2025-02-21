@@ -1,0 +1,5 @@
+cupy
+matplotlib
+scipy
+scikit-learn
+cupy-cuda12x
