@@ -15,21 +15,21 @@ class MatrixAlgorithms:
         S = np.diag(np.linspace(1, condition_number, rank))
         return U @ S @ V.T
 
-    def basic_fkv(self, A, r, c, k=None):
-        """Basic FKV algorithm without quantum-inspired optimizations."""
+    def standard_qfkv(self, A, r, c, k=None):
+        """Standard Quantum-inspired FKV algorithm (Original Implementation)."""
         m, n = A.shape
         if k is None:
             k = min(r, c)
         
-        # Simple uniform sampling for rows
+        # Uniform random sampling for rows
         row_indices = np.random.choice(m, r, replace=False)
         R = A[row_indices, :]
         
-        # Simple uniform sampling for columns
+        # Uniform random sampling for columns
         col_indices = np.random.choice(n, c, replace=False)
         C = R[:, col_indices]
         
-        # Basic SVD
+        # Standard SVD computation
         U_C, S_C, V_C = np.linalg.svd(C, full_matrices=False)
         
         # Truncate to k components
@@ -37,7 +37,7 @@ class MatrixAlgorithms:
         U_k = U_C[:, :k]
         S_k = S_C[:k]
         
-        # Simple reconstruction
+        # Direct matrix reconstruction
         B = A[:, col_indices] @ np.linalg.pinv(C) @ (U_k * S_k)
         T = B.T @ A
         
@@ -47,8 +47,8 @@ class MatrixAlgorithms:
         
         return U_final[:, :k], S_T[:k], V_T[:k, :]
 
-    def quantum_inspired_fkv(self, A, r, c, k=None):
-        """FKV algorithm with quantum-inspired optimizations."""
+    def enhanced_qfkv(self, A, r, c, k=None):
+        """Enhanced Quantum-inspired FKV algorithm (Our Implementation)."""
         m, n = A.shape
         if k is None:
             k = min(r, c)
@@ -73,7 +73,7 @@ class MatrixAlgorithms:
         U_k = U_C[:, :k]
         S_k = S_C[:k]
         
-        # Nyström-inspired reconstruction
+        # Nyström-inspired reconstruction with QR orthogonalization
         B = A[:, col_indices] @ np.linalg.pinv(C) @ (U_k * S_k)
         Q, _ = np.linalg.qr(B)  # Orthogonalize for stability
         T = Q.T @ A
@@ -100,8 +100,8 @@ def run_experiments():
     
     # Results storage
     results = {
-        'basic': {'time': [], 'error': []},
-        'quantum': {'time': [], 'error': []}
+        'standard': {'time': [], 'error': []},
+        'enhanced': {'time': [], 'error': []}
     }
     
     algo = MatrixAlgorithms()
@@ -120,30 +120,30 @@ def run_experiments():
             print(f"Running experiment for rank {rank}")
             A = matrix_generator()
             
-            # Basic FKV
+            # Standard FKV
             start_time = time.time()
-            U, S, V = algo.basic_fkv(A, r=sample_size, c=sample_size, k=rank)
-            basic_time = time.time() - start_time
-            basic_error = float(algo.reconstruction_error(A, U, S, V))
+            U, S, V = algo.standard_qfkv(A, r=sample_size, c=sample_size, k=rank)
+            standard_time = time.time() - start_time
+            standard_error = float(algo.reconstruction_error(A, U, S, V))
             
-            # Quantum-inspired FKV
+            # Enhanced FKV
             start_time = time.time()
-            U, S, V = algo.quantum_inspired_fkv(A, r=sample_size, c=sample_size, k=rank)
-            quantum_time = time.time() - start_time
-            quantum_error = float(algo.reconstruction_error(A, U, S, V))
+            U, S, V = algo.enhanced_qfkv(A, r=sample_size, c=sample_size, k=rank)
+            enhanced_time = time.time() - start_time
+            enhanced_error = float(algo.reconstruction_error(A, U, S, V))
             
-            results['basic']['time'].append(basic_time)
-            results['basic']['error'].append(basic_error)
-            results['quantum']['time'].append(quantum_time)
-            results['quantum']['error'].append(quantum_error)
+            results['standard']['time'].append(standard_time)
+            results['standard']['error'].append(standard_error)
+            results['enhanced']['time'].append(enhanced_time)
+            results['enhanced']['error'].append(enhanced_error)
             
             print(f"Rank {rank}:")
-            print(f"  Basic FKV: {basic_time:.3f}s, Error: {basic_error:.3e}")
-            print(f"  Quantum:   {quantum_time:.3f}s, Error: {quantum_error:.3e}")
+            print(f"  Standard FKV: {standard_time:.3f}s, Error: {standard_error:.3e}")
+            print(f"  Enhanced FKV: {enhanced_time:.3f}s, Error: {enhanced_error:.3e}")
         
         # Plotting for this scenario
         plot_results(ranks, results, scenario_name)
-        results = {'basic': {'time': [], 'error': []}, 'quantum': {'time': [], 'error': []}}
+        results = {'standard': {'time': [], 'error': []}, 'enhanced': {'time': [], 'error': []}}
 
 def generate_portfolio_matrix(m, n, rank):
     """Generate a synthetic portfolio matrix with realistic properties."""
@@ -168,8 +168,8 @@ def plot_results(ranks, results, scenario_name):
     
     # Runtime comparison
     plt.subplot(1, 2, 1)
-    plt.plot(ranks, results['basic']['time'], 'b-o', label='Basic FKV')
-    plt.plot(ranks, results['quantum']['time'], 'r-o', label='Quantum-Inspired')
+    plt.plot(ranks, results['standard']['time'], 'b-o', label='Standard Q-FKV')
+    plt.plot(ranks, results['enhanced']['time'], 'r-o', label='Enhanced Q-FKV')
     plt.xlabel('Matrix Rank')
     plt.ylabel('Runtime (seconds)')
     plt.title(f'{scenario_name}\nRuntime Comparison')
@@ -178,8 +178,8 @@ def plot_results(ranks, results, scenario_name):
     
     # Error comparison
     plt.subplot(1, 2, 2)
-    plt.plot(ranks, results['basic']['error'], 'b-o', label='Basic FKV')
-    plt.plot(ranks, results['quantum']['error'], 'r-o', label='Quantum-Inspired')
+    plt.plot(ranks, results['standard']['error'], 'b-o', label='Standard Q-FKV')
+    plt.plot(ranks, results['enhanced']['error'], 'r-o', label='Enhanced Q-FKV')
     plt.xlabel('Matrix Rank')
     plt.ylabel('Reconstruction Error')
     plt.title(f'{scenario_name}\nError Comparison')

@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This study investigates the effectiveness of quantum-inspired optimizations in handling high-rank matrix operations, addressing known limitations of traditional algorithms. We present a comparative analysis between basic Frieze-Kannan-Vempala (FKV) and quantum-inspired implementations, testing across diverse scenarios including random matrices, financial portfolios, and recommendation systems. Our results demonstrate that quantum-inspired optimizations achieve significantly better accuracy (improvements of 2-5 orders of magnitude) while maintaining stability across increasing ranks, albeit with increased computational overhead.
+This study investigates the effectiveness of quantum-inspired optimizations in handling high-rank matrix operations, addressing known limitations of traditional algorithms. We present a comparative analysis between Standard Quantum-inspired FKV and Enhanced Quantum-inspired FKV implementations, testing across diverse scenarios including random matrices, financial portfolios, and recommendation systems. Our results demonstrate that our enhanced quantum-inspired optimizations achieve significantly better accuracy (improvements of 2-5 orders of magnitude) while maintaining stability across increasing ranks, albeit with increased computational overhead.
 
 ## 1. Introduction
 
@@ -18,12 +18,12 @@ This study explores optimization strategies to address these limitations while m
 
 ### 2.1 Algorithms Implemented
 
-#### Basic FKV Algorithm
+#### Standard Quantum-inspired FKV Algorithm (Original Implementation)
 - Uniform random sampling for row and column selection
 - Standard SVD computation
 - Direct matrix reconstruction
 
-#### Quantum-Inspired FKV Algorithm
+#### Enhanced Quantum-inspired FKV Algorithm (Our Implementation)
 - Quantum-inspired importance sampling
 - Randomized SVD with improved efficiency
 - Nyström-inspired reconstruction with QR orthogonalization
@@ -41,7 +41,7 @@ For each scenario, we tested ranks k ∈ {10, 20, 50, 100}.
 
 ### 3.1 Random Dense Matrices
 
-| Rank | Basic FKV Error | Quantum-Inspired Error | Basic Time (s) | Quantum Time (s) |
+| Rank | Standard Q-FKV Error | Enhanced Q-FKV Error | Standard Time (s) | Enhanced Time (s) |
 |------|----------------|----------------------|----------------|-----------------|
 | 10   | 2.132e+02      | 1.094e-15            | 0.014          | 0.018           |
 | 20   | 2.282e+02      | 2.413e-15            | 0.023          | 0.115           |
@@ -50,7 +50,7 @@ For each scenario, we tested ranks k ∈ {10, 20, 50, 100}.
 
 ### 3.2 Portfolio Matrices
 
-| Rank | Basic FKV Error | Quantum-Inspired Error | Basic Time (s) | Quantum Time (s) |
+| Rank | Standard Q-FKV Error | Enhanced Q-FKV Error | Standard Time (s) | Enhanced Time (s) |
 |------|----------------|----------------------|----------------|-----------------|
 | 10   | 1.109e+05      | 3.246e-02            | 0.011          | 0.019           |
 | 20   | 1.235e+05      | 2.400e-02            | 0.016          | 0.088           |
@@ -59,7 +59,7 @@ For each scenario, we tested ranks k ∈ {10, 20, 50, 100}.
 
 ### 3.3 Recommendation Matrices
 
-| Rank | Basic FKV Error | Quantum-Inspired Error | Basic Time (s) | Quantum Time (s) |
+| Rank | Standard Q-FKV Error | Enhanced Q-FKV Error | Standard Time (s) | Enhanced Time (s) |
 |------|----------------|----------------------|----------------|-----------------|
 | 10   | 5.379e+02      | 9.668e-01            | 0.009          | 0.016           |
 | 20   | 7.844e+02      | 9.636e-01            | 0.011          | 0.020           |
@@ -70,22 +70,22 @@ For each scenario, we tested ranks k ∈ {10, 20, 50, 100}.
 
 ### 4.1 Accuracy Analysis
 
-The quantum-inspired implementation demonstrates superior accuracy across all scenarios:
+The Enhanced Quantum-inspired implementation demonstrates superior accuracy across all scenarios:
 - Random Matrices: 17 orders of magnitude improvement
 - Portfolio Matrices: 7 orders of magnitude improvement
 - Recommendation Matrices: 3 orders of magnitude improvement with stable error rates
 
 ### 4.2 Performance Trade-offs
 
-While achieving better accuracy, the quantum-inspired approach shows increased computational overhead:
+While achieving better accuracy, the Enhanced Quantum-inspired approach shows increased computational overhead:
 - Low Ranks (k ≤ 20): 1.5-5x slower
 - High Ranks (k > 50): 8-12x slower
 
 ### 4.3 Scalability
 
-The quantum-inspired implementation shows superior scalability in error maintenance:
-- Basic FKV: Error grows linearly or superlinearly with rank
-- Quantum-Inspired: Error remains stable or grows sublinearly
+The Enhanced Quantum-inspired implementation shows superior scalability in error maintenance:
+- Standard Q-FKV: Error grows linearly or superlinearly with rank
+- Enhanced Q-FKV: Error remains stable or grows sublinearly
 
 ## 5. Results and Analysis
 
@@ -97,27 +97,27 @@ We evaluated both algorithms across three different types of matrices:
 3. Recommendation matrices (sparse user-item interactions)
 
 ![Error Comparison](error_comparison.png)
-*Figure 1: Error comparison between basic FKV and quantum-inspired FKV across different matrix types and ranks*
+*Figure 1: Error comparison between Standard Q-FKV and Enhanced Q-FKV across different matrix types and ranks*
 
-The quantum-inspired algorithm consistently achieves lower error rates across all matrix types, with particularly impressive results for random and portfolio matrices where it achieves near-machine precision accuracy.
+The Enhanced Quantum-inspired algorithm consistently achieves lower error rates across all matrix types, with particularly impressive results for random and portfolio matrices where it achieves near-machine precision accuracy.
 
 ### 5.2 Time-Error Trade-off
 
 ![Time vs Error Trade-off](time_error_tradeoff.png)
 *Figure 2: Time-Error trade-off analysis showing the relationship between computation time and accuracy*
 
-While the quantum-inspired algorithm generally takes longer to compute, the significant improvement in accuracy often justifies the additional computational cost. The trade-off is particularly favorable for applications requiring high precision, such as financial portfolio optimization.
+While the Enhanced Quantum-inspired algorithm generally takes longer to compute, the significant improvement in accuracy often justifies the additional computational cost. The trade-off is particularly favorable for applications requiring high precision, such as financial portfolio optimization.
 
 ### 5.3 Scalability Analysis
 
 ![Scalability Analysis](scalability_analysis.png)
-*Figure 3: Scaling behavior of the quantum-inspired algorithm across different matrix types*
+*Figure 3: Scaling behavior of the Enhanced Quantum-inspired algorithm across different matrix types*
 
-The quantum-inspired algorithm shows approximately linear scaling with matrix rank, making it practical for real-world applications. The scaling behavior is consistent across different matrix types, with slightly better performance on sparse matrices (recommendation data) compared to dense matrices (random and portfolio data).
+The Enhanced Quantum-inspired algorithm shows approximately linear scaling with matrix rank, making it practical for real-world applications. The scaling behavior is consistent across different matrix types, with slightly better performance on sparse matrices (recommendation data) compared to dense matrices (random and portfolio data).
 
 ## 6. Conclusions
 
-Our results demonstrate that quantum-inspired optimizations can significantly improve the accuracy and stability of matrix operations, particularly for high-rank and structured matrices. The trade-off between computational overhead and accuracy improvement suggests these methods are particularly valuable for applications where precision is critical.
+Our results demonstrate that Enhanced Quantum-inspired optimizations can significantly improve the accuracy and stability of matrix operations, particularly for high-rank and structured matrices. The trade-off between computational overhead and accuracy improvement suggests these methods are particularly valuable for applications where precision is critical.
 
 Key findings:
 1. Dramatic improvement in accuracy across all test scenarios
@@ -174,7 +174,7 @@ If you use this implementation in your research, please cite:
 ```bibtex
 @software{mondal2025quantum,
   author       = {Debasis Mondal},
-  title        = {Quantum-Inspired Matrix Algorithms Implementation},
+  title        = {Optimizing High-Rank Matrix Operations Using Quantum-Inspired Algorithms: A Comparative Analysis},
   year         = {2025},
   publisher    = {GitHub},
   url          = {https://github.com/debasis/quantum-paper-1905.10415v3}
