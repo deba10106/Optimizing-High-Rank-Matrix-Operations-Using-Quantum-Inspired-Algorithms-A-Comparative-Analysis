@@ -177,7 +177,7 @@ If you use this implementation in your research, please cite:
   title        = {Optimizing High-Rank Matrix Operations Using Quantum-Inspired Algorithms: A Comparative Analysis},
   year         = {2025},
   publisher    = {GitHub},
-  url          = {https://github.com/debasis/quantum-paper-1905.10415v3}
+  url          = {[https://github.com/debasis/quantum-paper-1905.10415v3](https://github.com/deba10106/Optimizing-High-Rank-Matrix-Operations-Using-Quantum-Inspired-Algorithms-A-Comparative-Analysis)}
 }
 ```
 
